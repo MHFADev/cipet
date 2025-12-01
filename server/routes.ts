@@ -52,38 +52,53 @@ export async function registerRoutes(
     store: new MemoryStoreSession({
       checkPeriod: 86400000
     }),
-    secret: process.env.SESSION_SECRET || 'default-secret-key',
-    resave: false,
+    secret: process.env.SESSION_SECRET || 'cipet-admin-secret-key-2024',
+    resave: true,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === 'production',
+      secure: false,
       httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000
+      maxAge: 24 * 60 * 60 * 1000,
+      sameSite: 'lax'
     }
   }));
 
   app.post('/api/auth/login', async (req, res) => {
     try {
       const { username, password } = loginSchema.parse(req.body);
+      console.log(`[AUTH] Login attempt for user: ${username}`);
+      
       const admin = await storage.getAdminByUsername(username);
       
       if (!admin) {
-        return res.status(401).json({ success: false, message: 'Invalid credentials' });
+        console.log(`[AUTH] User not found: ${username}`);
+        return res.status(401).json({ success: false, message: 'Username atau password salah' });
       }
       
+      console.log(`[AUTH] User found: ${admin.username}, checking password...`);
       const isValid = await verifyPassword(password, admin.password);
+      
       if (!isValid) {
-        return res.status(401).json({ success: false, message: 'Invalid credentials' });
+        console.log(`[AUTH] Invalid password for user: ${username}`);
+        return res.status(401).json({ success: false, message: 'Username atau password salah' });
       }
       
       req.session.adminId = admin.id;
       req.session.adminUsername = admin.username;
       
-      return res.json({ 
-        success: true, 
-        user: { id: admin.id, username: admin.username, role: admin.role } 
+      req.session.save((err) => {
+        if (err) {
+          console.log(`[AUTH] Session save error:`, err);
+          return res.status(500).json({ success: false, message: 'Session error' });
+        }
+        console.log(`[AUTH] Login successful for user: ${username}, session ID: ${req.sessionID}`);
+        return res.json({ 
+          success: true, 
+          user: { id: admin.id, username: admin.username, role: admin.role } 
+        });
       });
     } catch (error) {
+      console.log(`[AUTH] Login error:`, error);
       if (error instanceof z.ZodError) {
         return res.status(400).json({ success: false, message: 'Validation error', errors: error.errors });
       }
