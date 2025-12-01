@@ -1,13 +1,14 @@
-# Cipet - Creative Freelancer Landing Page
+# Cipet - Creative Freelancer Platform
 
 ## Project Overview
-A Neubrutalism-style landing page for "Cipet" (Creative Freelancer) with dual language support (Bahasa Indonesia/English) and Discord webhook integration for order submissions.
+A professional portfolio and freelance services platform for "Cipet" (Creative Freelancer) with dual language support (Bahasa Indonesia/English), Discord webhook integration for order submissions, and a comprehensive admin dashboard.
 
 ## Tech Stack
 - **Frontend:** React 18, TypeScript, Tailwind CSS, Framer Motion, Lucide React
 - **Backend:** Express.js with API routes for Discord webhook proxy
+- **Database:** PostgreSQL with Drizzle ORM
 - **Form Handling:** React Hook Form + Zod validation
-- **Styling:** Neubrutalism design system with custom colors and shadows
+- **Styling:** Modern dark theme with professional color palette
 
 ## Key Features
 1. **Dual Language System (ID/EN)**
@@ -24,11 +25,19 @@ A Neubrutalism-style landing page for "Cipet" (Creative Freelancer) with dual la
    - Rich embed messages with order details
    - Environment variable for secure webhook URL
 
+4. **Admin Dashboard**
+   - Secure login with session-based authentication
+   - Dashboard with statistics overview
+   - Projects management (CRUD operations)
+   - Orders management with status tracking
+   - Settings page with password change
+
 ## Project Structure
 ```
 ├── client/
 │   ├── src/
 │   │   ├── components/       # React components
+│   │   │   ├── ui/           # Shadcn UI components
 │   │   │   ├── Navbar.tsx
 │   │   │   ├── Hero.tsx
 │   │   │   ├── Services.tsx
@@ -36,44 +45,93 @@ A Neubrutalism-style landing page for "Cipet" (Creative Freelancer) with dual la
 │   │   │   ├── OrderForm.tsx
 │   │   │   └── Footer.tsx
 │   │   ├── contexts/         # React contexts
-│   │   │   └── LanguageContext.tsx
+│   │   │   ├── LanguageContext.tsx
+│   │   │   └── ThemeContext.tsx
 │   │   ├── lib/              # Utilities
-│   │   │   └── translations.ts
+│   │   │   ├── translations.ts
+│   │   │   ├── queryClient.ts
+│   │   │   └── utils.ts
 │   │   ├── pages/            # Page components
-│   │   │   └── Home.tsx
+│   │   │   ├── Home.tsx
+│   │   │   ├── not-found.tsx
+│   │   │   └── admin/        # Admin dashboard pages
+│   │   │       ├── AdminLogin.tsx
+│   │   │       ├── AdminLayout.tsx
+│   │   │       ├── AdminDashboard.tsx
+│   │   │       ├── AdminProjects.tsx
+│   │   │       ├── AdminOrders.tsx
+│   │   │       └── AdminSettings.tsx
 │   │   ├── App.tsx
 │   │   └── index.css
 │   └── index.html
 ├── server/
-│   ├── routes.ts             # API routes (Discord webhook)
+│   ├── routes.ts             # API routes
+│   ├── storage.ts            # Database operations
+│   ├── db.ts                 # Database connection
 │   └── index.ts
 ├── shared/
-│   └── schema.ts             # Zod schemas and TypeScript types
-└── .env.local.example        # Environment variable template
+│   └── schema.ts             # Drizzle schemas and TypeScript types
+└── drizzle.config.ts         # Drizzle configuration
 ```
 
-## Design System (Neubrutalism)
-- **Colors:** Yellow (#FFDE00), Pink (#FF52A3), Cyan (#00F0FF), Black (#000000)
-- **Borders:** 3px solid black on all components
-- **Shadows:** Hard offset shadows (no blur) - e.g., `6px 6px 0 #000`
-- **Typography:** Clash Display (headers), Space Grotesk (body)
-- **Border Radius:** None (sharp corners)
+## Database Schema
+- **admin_users:** Admin authentication (username, password, email, role)
+- **projects:** Portfolio items (title, description, category, imageUrl, featured)
+- **orders:** Customer orders (name, contact, service details, status, notes)
+- **site_settings:** Key-value settings storage
+
+## Design System
+- **Theme:** Professional dark theme with blue accent colors
+- **Primary Color:** HSL 217 91% 60% (Blue)
+- **Background (Dark):** HSL 222 47% 6% (Deep navy)
+- **Typography:** Inter font family
+- **Border Radius:** 0.5rem (subtle rounded corners)
+- **Shadows:** Subtle shadow system for depth
 
 ## Environment Variables
-For Vercel deployment, set:
-- `DISCORD_WEBHOOK_URL` - Your Discord webhook URL
+- `DATABASE_URL` - PostgreSQL connection string
+- `SESSION_SECRET` - Session encryption key
+- `DISCORD_WEBHOOK_URL` - Discord webhook URL (optional)
+
+## Admin Dashboard Access
+1. Navigate to `/admin/login`
+2. Click "Setup Admin Awal" to create default admin (first time only)
+3. Login with default credentials:
+   - Username: `admin`
+   - Password: `admin123`
+4. Change password in Settings after first login
+
+## API Endpoints
+
+### Public
+- `POST /api/order` - Submit order form
+- `GET /api/projects` - Get all projects
+
+### Authentication
+- `POST /api/auth/login` - Admin login
+- `POST /api/auth/logout` - Admin logout
+- `GET /api/auth/me` - Get current admin
+- `POST /api/auth/setup` - Create initial admin
+- `POST /api/auth/change-password` - Change password
+
+### Admin (Protected)
+- `GET /api/admin/projects` - List all projects
+- `POST /api/admin/projects` - Create project
+- `PATCH /api/admin/projects/:id` - Update project
+- `DELETE /api/admin/projects/:id` - Delete project
+- `GET /api/admin/orders` - List all orders
+- `PATCH /api/admin/orders/:id` - Update order
+- `DELETE /api/admin/orders/:id` - Delete order
+- `GET /api/admin/stats` - Get dashboard statistics
 
 ## Development
 ```bash
 npm run dev   # Start development server on port 5000
+npx drizzle-kit push  # Push schema changes to database
 ```
 
-## API Endpoints
-- `POST /api/order` - Submit order form (proxies to Discord webhook)
-  - Request body: `{ name, contact, serviceCategory, subService, topic, deadline, budget }`
-  - Response: `{ success: boolean, message: string }`
-
 ## Deployment Notes
-- Designed for Vercel deployment
-- Uses standard Next.js-compatible API route pattern
-- Environment variables should be configured in Vercel dashboard
+- Uses Replit's built-in deployment
+- Database: PostgreSQL (Railway)
+- Session storage: In-memory (MemoryStore)
+- All environment variables should be configured as secrets

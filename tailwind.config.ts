@@ -6,9 +6,9 @@ export default {
   theme: {
     extend: {
       borderRadius: {
-        lg: "0px",
-        md: "0px",
-        sm: "0px",
+        lg: "0.5rem",
+        md: "0.375rem",
+        sm: "0.25rem",
         none: "0px",
       },
       borderWidth: {
@@ -99,9 +99,9 @@ export default {
         },
       },
       fontFamily: {
-        sans: ["'Space Grotesk'", "sans-serif"],
-        display: ["'Clash Display'", "sans-serif"],
-        mono: ["var(--font-mono)"],
+        sans: ["'Inter'", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+        display: ["'Inter'", "sans-serif"],
+        mono: ["'JetBrains Mono'", "Menlo", "monospace"],
       },
       keyframes: {
         "accordion-down": {
