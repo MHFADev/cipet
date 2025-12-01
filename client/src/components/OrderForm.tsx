@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { orderFormSchema, type OrderFormData, type ServiceCategory } from '@shared/schema';
+import { orderFormSchema, type OrderFormData } from '@shared/schema';
 import { Loader2, Send, CheckCircle, AlertCircle, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
