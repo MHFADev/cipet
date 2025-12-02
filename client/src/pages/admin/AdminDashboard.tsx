@@ -18,34 +18,34 @@ export default function AdminDashboard() {
 
   const statCards = [
     {
-      title: "Total Projects",
+      title: "Total Proyek",
       value: stats?.totalProjects ?? 0,
       icon: FolderKanban,
-      description: "Portfolio items",
+      description: "Item portofolio",
       color: "text-blue-500",
       bgColor: "bg-blue-500/10",
     },
     {
-      title: "Total Orders",
+      title: "Total Pesanan",
       value: stats?.totalOrders ?? 0,
       icon: ShoppingCart,
-      description: "All time orders",
+      description: "Semua pesanan",
       color: "text-green-500",
       bgColor: "bg-green-500/10",
     },
     {
-      title: "Pending Orders",
+      title: "Pesanan Menunggu",
       value: stats?.pendingOrders ?? 0,
       icon: Clock,
-      description: "Waiting for action",
+      description: "Menunggu tindakan",
       color: "text-yellow-500",
       bgColor: "bg-yellow-500/10",
     },
     {
-      title: "Completed Orders",
+      title: "Pesanan Selesai",
       value: stats?.completedOrders ?? 0,
       icon: CheckCircle,
-      description: "Successfully completed",
+      description: "Berhasil diselesaikan",
       color: "text-emerald-500",
       bgColor: "bg-emerald-500/10",
     },
@@ -87,8 +87,8 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card>
             <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-              <CardDescription>Frequently used actions</CardDescription>
+              <CardTitle>Aksi Cepat</CardTitle>
+              <CardDescription>Aksi yang sering digunakan</CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
               <a 
@@ -99,8 +99,8 @@ export default function AdminDashboard() {
                 <div className="flex items-center gap-3">
                   <FolderKanban className="h-5 w-5 text-primary" />
                   <div>
-                    <div className="font-medium">Manage Projects</div>
-                    <div className="text-sm text-muted-foreground">Add, edit, or delete portfolio items</div>
+                    <div className="font-medium">Kelola Proyek</div>
+                    <div className="text-sm text-muted-foreground">Tambah, edit, atau hapus item portofolio</div>
                   </div>
                 </div>
               </a>
@@ -112,8 +112,8 @@ export default function AdminDashboard() {
                 <div className="flex items-center gap-3">
                   <ShoppingCart className="h-5 w-5 text-primary" />
                   <div>
-                    <div className="font-medium">View Orders</div>
-                    <div className="text-sm text-muted-foreground">Check and manage customer orders</div>
+                    <div className="font-medium">Lihat Pesanan</div>
+                    <div className="text-sm text-muted-foreground">Periksa dan kelola pesanan pelanggan</div>
                   </div>
                 </div>
               </a>
@@ -122,8 +122,8 @@ export default function AdminDashboard() {
 
           <Card>
             <CardHeader>
-              <CardTitle>System Info</CardTitle>
-              <CardDescription>Application status</CardDescription>
+              <CardTitle>Info Sistem</CardTitle>
+              <CardDescription>Status aplikasi</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex justify-between items-center">
@@ -138,7 +138,7 @@ export default function AdminDashboard() {
                 <span className="text-foreground font-medium">PostgreSQL</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Version</span>
+                <span className="text-muted-foreground">Versi</span>
                 <span className="text-foreground font-medium">1.0.0</span>
               </div>
             </CardContent>

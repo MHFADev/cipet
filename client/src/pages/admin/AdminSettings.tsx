@@ -23,23 +23,23 @@ export default function AdminSettings() {
       });
     },
     onSuccess: () => {
-      toast({ title: "Success", description: "Password changed successfully" });
+      toast({ title: "Berhasil", description: "Password berhasil diubah" });
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
     },
     onError: () => {
-      toast({ title: "Error", description: "Failed to change password", variant: "destructive" });
+      toast({ title: "Error", description: "Gagal mengubah password", variant: "destructive" });
     },
   });
 
   const handleChangePassword = () => {
     if (newPassword !== confirmPassword) {
-      toast({ title: "Error", description: "Passwords do not match", variant: "destructive" });
+      toast({ title: "Error", description: "Password tidak cocok", variant: "destructive" });
       return;
     }
     if (newPassword.length < 6) {
-      toast({ title: "Error", description: "Password must be at least 6 characters", variant: "destructive" });
+      toast({ title: "Error", description: "Password minimal 6 karakter", variant: "destructive" });
       return;
     }
     changePasswordMutation.mutate({ currentPassword, newPassword });
@@ -49,8 +49,8 @@ export default function AdminSettings() {
     <AdminLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold" data-testid="text-settings-title">Settings</h1>
-          <p className="text-muted-foreground mt-1">Manage your account settings</p>
+          <h1 className="text-3xl font-bold" data-testid="text-settings-title">Pengaturan</h1>
+          <p className="text-muted-foreground mt-1">Kelola pengaturan akun Anda</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -58,18 +58,18 @@ export default function AdminSettings() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Lock className="h-5 w-5" />
-                Change Password
+                Ubah Password
               </CardTitle>
-              <CardDescription>Update your account password</CardDescription>
+              <CardDescription>Perbarui password akun Anda</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <label className="text-sm font-medium text-muted-foreground">Current Password</label>
+                <label className="text-sm font-medium text-muted-foreground">Password Saat Ini</label>
                 <div className="relative mt-1">
                   <Key className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     type="password"
-                    placeholder="Enter current password"
+                    placeholder="Masukkan password saat ini"
                     className="pl-10"
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
@@ -78,12 +78,12 @@ export default function AdminSettings() {
                 </div>
               </div>
               <div>
-                <label className="text-sm font-medium text-muted-foreground">New Password</label>
+                <label className="text-sm font-medium text-muted-foreground">Password Baru</label>
                 <div className="relative mt-1">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     type="password"
-                    placeholder="Enter new password"
+                    placeholder="Masukkan password baru"
                     className="pl-10"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
@@ -92,12 +92,12 @@ export default function AdminSettings() {
                 </div>
               </div>
               <div>
-                <label className="text-sm font-medium text-muted-foreground">Confirm New Password</label>
+                <label className="text-sm font-medium text-muted-foreground">Konfirmasi Password Baru</label>
                 <div className="relative mt-1">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     type="password"
-                    placeholder="Confirm new password"
+                    placeholder="Konfirmasi password baru"
                     className="pl-10"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
@@ -112,23 +112,23 @@ export default function AdminSettings() {
               >
                 {changePasswordMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
                 <Save className="h-4 w-4 mr-2" />
-                Change Password
+                Ubah Password
               </Button>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>System Information</CardTitle>
-              <CardDescription>Application details</CardDescription>
+              <CardTitle>Informasi Sistem</CardTitle>
+              <CardDescription>Detail aplikasi</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex justify-between items-center py-2 border-b border-border">
-                <span className="text-muted-foreground">Application</span>
+                <span className="text-muted-foreground">Aplikasi</span>
                 <span className="font-medium">Cipet Admin</span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-border">
-                <span className="text-muted-foreground">Version</span>
+                <span className="text-muted-foreground">Versi</span>
                 <span className="font-medium">1.0.0</span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-border">
@@ -136,8 +136,8 @@ export default function AdminSettings() {
                 <span className="font-medium">PostgreSQL</span>
               </div>
               <div className="flex justify-between items-center py-2">
-                <span className="text-muted-foreground">Environment</span>
-                <span className="font-medium">Production</span>
+                <span className="text-muted-foreground">Lingkungan</span>
+                <span className="font-medium">Produksi</span>
               </div>
             </CardContent>
           </Card>

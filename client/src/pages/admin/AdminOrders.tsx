@@ -24,22 +24,22 @@ const statusColors: Record<string, string> = {
 };
 
 const statusLabels: Record<string, string> = {
-  pending: "Pending",
-  inProgress: "In Progress",
-  completed: "Completed",
-  cancelled: "Cancelled",
+  pending: "Menunggu",
+  inProgress: "Dikerjakan",
+  completed: "Selesai",
+  cancelled: "Dibatalkan",
 };
 
 const serviceLabels: Record<string, string> = {
-  graphicDesign: "Graphic Design",
-  academicHelp: "Academic Help",
-  flyer: "Flyer & Brochure",
+  graphicDesign: "Desain Grafis",
+  academicHelp: "Joki Tugas",
+  flyer: "Flyer & Brosur",
   poster: "Poster",
-  socialMedia: "Social Media",
-  uiux: "UI/UX Design",
-  essay: "Essay / Paper",
+  socialMedia: "Media Sosial",
+  uiux: "Desain UI/UX",
+  essay: "Makalah / Essay",
   ppt: "PowerPoint",
-  resume: "Resume / Summary",
+  resume: "Resume / Ringkasan",
 };
 
 export default function AdminOrders() {
@@ -63,10 +63,10 @@ export default function AdminOrders() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/admin/orders'] });
       queryClient.invalidateQueries({ queryKey: ['/api/admin/stats'] });
-      toast({ title: "Success", description: "Order updated successfully" });
+      toast({ title: "Berhasil", description: "Pesanan berhasil diperbarui" });
     },
     onError: () => {
-      toast({ title: "Error", description: "Failed to update order", variant: "destructive" });
+      toast({ title: "Error", description: "Gagal memperbarui pesanan", variant: "destructive" });
     },
   });
 
@@ -77,10 +77,10 @@ export default function AdminOrders() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/admin/orders'] });
       queryClient.invalidateQueries({ queryKey: ['/api/admin/stats'] });
-      toast({ title: "Success", description: "Order deleted successfully" });
+      toast({ title: "Berhasil", description: "Pesanan berhasil dihapus" });
     },
     onError: () => {
-      toast({ title: "Error", description: "Failed to delete order", variant: "destructive" });
+      toast({ title: "Error", description: "Gagal menghapus pesanan", variant: "destructive" });
     },
   });
 
@@ -107,15 +107,15 @@ export default function AdminOrders() {
     <AdminLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold" data-testid="text-orders-title">Orders</h1>
-          <p className="text-muted-foreground mt-1">Manage customer orders</p>
+          <h1 className="text-3xl font-bold" data-testid="text-orders-title">Pesanan</h1>
+          <p className="text-muted-foreground mt-1">Kelola pesanan pelanggan</p>
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle>All Orders</CardTitle>
+            <CardTitle>Semua Pesanan</CardTitle>
             <CardDescription>
-              {isLoading ? "Loading..." : `${orders?.length || 0} orders`}
+              {isLoading ? "Memuat..." : `${orders?.length || 0} pesanan`}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -131,12 +131,12 @@ export default function AdminOrders() {
                   <TableHeader>
                     <TableRow>
                       <TableHead>ID</TableHead>
-                      <TableHead>Client</TableHead>
-                      <TableHead>Service</TableHead>
+                      <TableHead>Klien</TableHead>
+                      <TableHead>Layanan</TableHead>
                       <TableHead>Budget</TableHead>
                       <TableHead>Status</TableHead>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Actions</TableHead>
+                      <TableHead>Tanggal</TableHead>
+                      <TableHead>Aksi</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -196,18 +196,18 @@ export default function AdminOrders() {
                               </AlertDialogTrigger>
                               <AlertDialogContent>
                                 <AlertDialogHeader>
-                                  <AlertDialogTitle>Delete Order?</AlertDialogTitle>
+                                  <AlertDialogTitle>Hapus Pesanan?</AlertDialogTitle>
                                   <AlertDialogDescription>
-                                    This will permanently delete order #{order.id} from {order.name}. This action cannot be undone.
+                                    Pesanan #{order.id} dari {order.name} akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.
                                   </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
-                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                  <AlertDialogCancel>Batal</AlertDialogCancel>
                                   <AlertDialogAction
                                     onClick={() => deleteMutation.mutate(order.id)}
                                     className="bg-destructive text-destructive-foreground"
                                   >
-                                    Delete
+                                    Hapus
                                   </AlertDialogAction>
                                 </AlertDialogFooter>
                               </AlertDialogContent>
@@ -222,8 +222,8 @@ export default function AdminOrders() {
             ) : (
               <div className="text-center py-12 text-muted-foreground">
                 <ShoppingCart className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>No orders yet</p>
-                <p className="text-sm">Orders from the website will appear here</p>
+                <p>Belum ada pesanan</p>
+                <p className="text-sm">Pesanan dari website akan muncul di sini</p>
               </div>
             )}
           </CardContent>
@@ -232,9 +232,9 @@ export default function AdminOrders() {
         <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
           <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>Order Details #{selectedOrder?.id}</DialogTitle>
+              <DialogTitle>Detail Pesanan #{selectedOrder?.id}</DialogTitle>
               <DialogDescription>
-                Created: {selectedOrder && format(new Date(selectedOrder.createdAt), "dd MMMM yyyy, HH:mm")}
+                Dibuat: {selectedOrder && format(new Date(selectedOrder.createdAt), "dd MMMM yyyy, HH:mm")}
               </DialogDescription>
             </DialogHeader>
             {selectedOrder && (
@@ -243,7 +243,7 @@ export default function AdminOrders() {
                   <div className="p-4 border">
                     <div className="flex items-center gap-2 text-muted-foreground mb-2">
                       <FileText className="h-4 w-4" />
-                      <span className="text-sm font-medium">Client Info</span>
+                      <span className="text-sm font-medium">Info Klien</span>
                     </div>
                     <p className="font-medium">{selectedOrder.name}</p>
                     <p className="text-sm text-muted-foreground">{selectedOrder.contact}</p>
@@ -258,14 +258,14 @@ export default function AdminOrders() {
                   <div className="p-4 border">
                     <div className="flex items-center gap-2 text-muted-foreground mb-2">
                       <Calendar className="h-4 w-4" />
-                      <span className="text-sm font-medium">Deadline</span>
+                      <span className="text-sm font-medium">Tenggat Waktu</span>
                     </div>
                     <p className="font-medium">{selectedOrder.deadline}</p>
                   </div>
                   <div className="p-4 border">
                     <div className="flex items-center gap-2 text-muted-foreground mb-2">
                       <ShoppingCart className="h-4 w-4" />
-                      <span className="text-sm font-medium">Service</span>
+                      <span className="text-sm font-medium">Layanan</span>
                     </div>
                     <p className="font-medium">{serviceLabels[selectedOrder.serviceCategory]}</p>
                     <p className="text-sm text-muted-foreground">{serviceLabels[selectedOrder.subService]}</p>
@@ -273,7 +273,7 @@ export default function AdminOrders() {
                 </div>
 
                 <div className="p-4 border">
-                  <span className="text-sm font-medium text-muted-foreground">Project Description</span>
+                  <span className="text-sm font-medium text-muted-foreground">Deskripsi Proyek</span>
                   <p className="mt-2 whitespace-pre-wrap">{selectedOrder.topic}</p>
                 </div>
 
@@ -300,10 +300,10 @@ export default function AdminOrders() {
                 </div>
 
                 <div className="p-4 border">
-                  <span className="text-sm font-medium text-muted-foreground">Internal Notes</span>
+                  <span className="text-sm font-medium text-muted-foreground">Catatan Internal</span>
                   <Textarea 
                     className="mt-2"
-                    placeholder="Add notes about this order..."
+                    placeholder="Tambahkan catatan tentang pesanan ini..."
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     rows={4}
@@ -317,14 +317,14 @@ export default function AdminOrders() {
                     data-testid="button-save-notes"
                   >
                     {updateMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-                    Save Notes
+                    Simpan Catatan
                   </Button>
                 </div>
               </div>
             )}
             <DialogFooter>
               <DialogClose asChild>
-                <Button variant="outline" data-testid="button-close-detail">Close</Button>
+                <Button variant="outline" data-testid="button-close-detail">Tutup</Button>
               </DialogClose>
             </DialogFooter>
           </DialogContent>

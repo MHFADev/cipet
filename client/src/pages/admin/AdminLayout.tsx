@@ -30,9 +30,9 @@ import { Link } from "wouter";
 
 const menuItems = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
-  { title: "Projects", url: "/admin/projects", icon: FolderKanban },
-  { title: "Orders", url: "/admin/orders", icon: ShoppingCart },
-  { title: "Settings", url: "/admin/settings", icon: Settings },
+  { title: "Proyek", url: "/admin/projects", icon: FolderKanban },
+  { title: "Pesanan", url: "/admin/orders", icon: ShoppingCart },
+  { title: "Pengaturan", url: "/admin/settings", icon: Settings },
 ];
 
 interface AdminLayoutProps {
@@ -120,14 +120,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               </SidebarGroupContent>
             </SidebarGroup>
             <SidebarGroup>
-              <SidebarGroupLabel>Quick Links</SidebarGroupLabel>
+              <SidebarGroupLabel>Tautan Cepat</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <a href="/" target="_blank" rel="noopener noreferrer" data-testid="link-view-site">
                         <Home className="h-4 w-4" />
-                        <span>View Site</span>
+                        <span>Lihat Situs</span>
                       </a>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -138,7 +138,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           <SidebarFooter className="p-4 border-t border-border">
             <div className="flex flex-col gap-2">
               <div className="text-sm text-muted-foreground">
-                Logged in as <span className="font-medium text-foreground">{authData.user.username}</span>
+                Login sebagai <span className="font-medium text-foreground">{authData.user.username}</span>
               </div>
               <Button 
                 variant="outline" 
@@ -148,7 +148,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 data-testid="button-logout"
               >
                 <LogOut className="h-4 w-4 mr-2" />
-                Logout
+                Keluar
               </Button>
             </div>
           </SidebarFooter>

@@ -163,11 +163,11 @@ export function Services() {
               <div className="w-14 h-14 mx-auto mb-4 bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/30 rounded-2xl flex items-center justify-center">
                 <Zap className="w-7 h-7 text-primary" />
               </div>
-              <div className="font-display text-4xl md:text-5xl font-bold text-foreground mb-2">
-                50+
+              <div className="font-display text-4xl md:text-5xl font-bold text-foreground mb-2" data-testid="text-project-count">
+                {stats?.totalProjects || 0}
               </div>
               <div className="font-sans font-medium text-muted-foreground uppercase tracking-wide text-sm">
-                Projects Done
+                Proyek Selesai
               </div>
             </Card>
           </motion.div>
@@ -181,7 +181,7 @@ export function Services() {
                 30+
               </div>
               <div className="font-sans font-medium text-muted-foreground uppercase tracking-wide text-sm">
-                Happy Clients
+                Klien Puas
               </div>
             </Card>
           </motion.div>
@@ -192,10 +192,10 @@ export function Services() {
                 <Clock className="w-7 h-7 text-primary" />
               </div>
               <div className="font-display text-4xl md:text-5xl font-bold text-foreground mb-2">
-                24h
+                24 Jam
               </div>
               <div className="font-sans font-medium text-muted-foreground uppercase tracking-wide text-sm">
-                Fast Response
+                Respon Cepat
               </div>
             </Card>
           </motion.div>
