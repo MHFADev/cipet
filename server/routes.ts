@@ -6,6 +6,7 @@ import { storage } from "./storage";
 import session from "express-session";
 import MemoryStore from "memorystore";
 import bcrypt from "bcryptjs";
+import { broadcastProjectsUpdate, broadcastOrdersUpdate, broadcastSettingsUpdate } from "./websocket";
 
 declare module "express-session" {
   interface SessionData {
@@ -212,6 +213,7 @@ export async function registerRoutes(
     try {
       const projectData = insertProjectSchema.parse(req.body);
       const project = await storage.createProject(projectData);
+      broadcastProjectsUpdate();
       res.status(201).json(project);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -228,6 +230,7 @@ export async function registerRoutes(
       if (!project) {
         return res.status(404).json({ success: false, message: 'Project not found' });
       }
+      broadcastProjectsUpdate();
       res.json(project);
     } catch (error) {
       res.status(500).json({ success: false, message: 'Failed to update project' });
@@ -241,6 +244,7 @@ export async function registerRoutes(
       if (!deleted) {
         return res.status(404).json({ success: false, message: 'Project not found' });
       }
+      broadcastProjectsUpdate();
       res.json({ success: true, message: 'Project deleted' });
     } catch (error) {
       res.status(500).json({ success: false, message: 'Failed to delete project' });
@@ -276,6 +280,7 @@ export async function registerRoutes(
       if (!order) {
         return res.status(404).json({ success: false, message: 'Order not found' });
       }
+      broadcastOrdersUpdate();
       res.json(order);
     } catch (error) {
       res.status(500).json({ success: false, message: 'Failed to update order' });
@@ -289,6 +294,7 @@ export async function registerRoutes(
       if (!deleted) {
         return res.status(404).json({ success: false, message: 'Order not found' });
       }
+      broadcastOrdersUpdate();
       res.json({ success: true, message: 'Order deleted' });
     } catch (error) {
       res.status(500).json({ success: false, message: 'Failed to delete order' });
@@ -308,6 +314,7 @@ export async function registerRoutes(
     try {
       const { key, value } = req.body;
       const setting = await storage.setSetting({ key, value });
+      broadcastSettingsUpdate();
       res.json(setting);
     } catch (error) {
       res.status(500).json({ success: false, message: 'Failed to save setting' });
@@ -431,6 +438,7 @@ export async function registerRoutes(
         }
       }
 
+      broadcastOrdersUpdate();
       return res.status(200).json({
         success: true,
         message: 'Order submitted successfully!',

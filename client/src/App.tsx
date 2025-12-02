@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { useWebSocket } from "@/hooks/use-websocket";
 import Home from "@/pages/Home";
 import NotFound from "@/pages/not-found";
 import AdminLogin from "@/pages/admin/AdminLogin";
@@ -12,6 +13,11 @@ import AdminDashboard from "@/pages/admin/AdminDashboard";
 import AdminProjects from "@/pages/admin/AdminProjects";
 import AdminOrders from "@/pages/admin/AdminOrders";
 import AdminSettings from "@/pages/admin/AdminSettings";
+
+function WebSocketProvider({ children }: { children: React.ReactNode }) {
+  useWebSocket();
+  return <>{children}</>;
+}
 
 function Router() {
   return (
@@ -33,8 +39,10 @@ function App() {
       <ThemeProvider>
         <TooltipProvider>
           <LanguageProvider>
-            <Toaster />
-            <Router />
+            <WebSocketProvider>
+              <Toaster />
+              <Router />
+            </WebSocketProvider>
           </LanguageProvider>
         </TooltipProvider>
       </ThemeProvider>
