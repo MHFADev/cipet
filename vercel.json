@@ -1,11 +1,6 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "framework": "express",
-  "nodeVersion": "20.x",
-  "env": {
-    "NODE_ENV": "production"
-  },
+  "outputDirectory": "dist/public",
   "env": {
     "NODE_ENV": "production"
   }
