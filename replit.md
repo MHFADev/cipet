@@ -9,6 +9,8 @@ A professional portfolio and freelance services platform for "Cipet" (Creative F
 - **Database:** PostgreSQL with Drizzle ORM
 - **Form Handling:** React Hook Form + Zod validation
 - **Styling:** Modern dark theme with professional color palette
+- **Image Processing:** Sharp for image compression
+- **Deployment:** Configured for Vercel deployment
 
 ## Key Features
 1. **Dual Language System (ID/EN)**
@@ -37,6 +39,12 @@ A professional portfolio and freelance services platform for "Cipet" (Creative F
    - Auto-sync when data changes in database
    - Broadcasts: projects_updated, orders_updated, settings_updated
    - TanStack Query cache invalidation for instant UI updates
+
+6. **Image Compression for Admin Uploads**
+   - Automatic image compression using Sharp library
+   - Targets ~100KB file size with quality optimization
+   - Supports JPEG, PNG, GIF, WebP formats
+   - Reduces storage and improves page load performance
 
 ## Project Structure
 ```
