@@ -11,6 +11,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { translateToEnglish } from "./gemini";
+import sharp from "sharp";
 
 const uploadDir = path.join(process.cwd(), 'uploads');
 if (!fs.existsSync(uploadDir)) {
@@ -384,7 +385,7 @@ export async function registerRoutes(
   });
 
   app.post('/api/admin/upload', requireAuth, (req, res, next) => {
-    upload.single('image')(req, res, (err) => {
+    upload.single('image')(req, res, async (err) => {
       if (err) {
         console.error('[Upload] Multer error:', err.message);
         if (err.code === 'LIMIT_FILE_SIZE') {
@@ -398,9 +399,50 @@ export async function registerRoutes(
         return res.status(400).json({ success: false, message: 'Tidak ada file yang diupload' });
       }
       
-      console.log('[Upload] Success:', req.file.filename);
-      const imageUrl = `/uploads/${req.file.filename}`;
-      res.json({ success: true, imageUrl });
+      try {
+        const inputPath = req.file.path;
+        const ext = path.extname(req.file.filename).toLowerCase();
+        const nameWithoutExt = path.basename(req.file.filename, ext);
+        const compressedFilename = `${nameWithoutExt}-compressed${ext}`;
+        const compressedPath = path.join(uploadDir, compressedFilename);
+        
+        // Compress image to target size (~100KB)
+        let quality = 80;
+        let compressed = false;
+        
+        while (quality >= 30 && !compressed) {
+          await sharp(inputPath)
+            .resize(1920, 1080, {
+              fit: 'inside',
+              withoutEnlargement: true
+            })
+            .jpeg({ quality, progressive: true })
+            .toFile(compressedPath);
+          
+          const stats = fs.statSync(compressedPath);
+          const fileSizeInKb = stats.size / 1024;
+          
+          console.log(`[Upload] Compressed to ${fileSizeInKb.toFixed(2)}KB at quality ${quality}`);
+          
+          if (fileSizeInKb <= 100 || quality <= 30) {
+            compressed = true;
+          } else {
+            quality -= 10;
+          }
+        }
+        
+        // Delete original file
+        fs.unlinkSync(inputPath);
+        
+        console.log('[Upload] Success:', compressedFilename);
+        const imageUrl = `/uploads/${compressedFilename}`;
+        res.json({ success: true, imageUrl });
+      } catch (error) {
+        console.error('[Upload] Compression error:', error);
+        // Fallback: return original file if compression fails
+        const imageUrl = `/uploads/${req.file.filename}`;
+        res.json({ success: true, imageUrl });
+      }
     });
   });
 
